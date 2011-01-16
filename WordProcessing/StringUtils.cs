@@ -8,7 +8,12 @@ namespace WordProcessing
         public const string EMPTY = "";
 
         public const int INDEX_NOT_FOUND = -1;
-
+        
+        public static string DefaultString(string input) 
+        {
+        	return string.IsNullOrEmpty(input) ? string.Empty : input;
+        }
+        
         public static string Reverse(string input)
         {
             //Validate input
@@ -110,147 +115,6 @@ namespace WordProcessing
             }
 
             return new string(outputChars.ToArray());
-        }
-
-        public static string AlternateCases(string input)
-        {
-            if (string.IsNullOrEmpty(input)) return string.Empty;
-            if (input.Length == 1) return input; //Nothing to alternate
-
-            char[] inputChars = input.ToCharArray(); //character array representing the string
-            bool toUpper = !char.IsUpper(inputChars[0]);
-
-            for (int i = 1; i < inputChars.Length; i++) //start with the section character
-            {
-                if (toUpper)
-                    inputChars[i] = char.ToUpper(inputChars[i]);
-                else
-                    inputChars[i] = char.ToLower(inputChars[i]);
-
-                toUpper = !toUpper; //alternate
-            }
-
-            return new string(inputChars);
-        }
-
-        public static string SwapCases(string input)
-        {
-            //Validate input
-            if (string.IsNullOrEmpty(input))
-                return string.Empty;
-
-            char[] inputChars = input.ToCharArray();
-
-            for (int i = 0; i < inputChars.Length; i++)
-            {
-                //Apply the opposite letter casing
-                if (char.IsUpper(inputChars[i]))
-                    inputChars[i] = char.ToLower(inputChars[i]);
-                else
-                    inputChars[i] = char.ToUpper(inputChars[i]);
-            }
-
-            return new string(inputChars);
-        }
-
-        public static string Capitalize(string input)
-        {
-            if (string.IsNullOrEmpty(input)) return string.Empty;
-            if (input.Length == 1) return input.ToUpper();
-
-            return input[0].ToString().ToUpper() + input.Substring(1);
-        }
-
-        public static string GetInitials(string input, bool capitalizeInitials, bool preserveSpaces, bool includePeriod)
-        {
-            //Verify input
-            if (string.IsNullOrEmpty(input))
-                return string.Empty;
-
-            string[] words = input.Split(' ');
-
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (words[i].Length > 0)
-                {
-                    if (capitalizeInitials)
-                        words[i] = char.ToUpper(words[i][0]).ToString(); //only keep the first letter
-                    else
-                        words[i] = words[i][0].ToString(); //only keep the first letter
-
-                    if (includePeriod)
-                        words[i] += ".";
-                }
-            }
-
-            if (preserveSpaces)
-                return string.Join(" ", words);
-            else
-                return string.Join("", words);
-        }
-
-        public static string GetInitials(string input, string separator, bool capitalizeInitials, bool preserveSeparator, bool includePeriod)
-        {
-            //Verify input
-            if (string.IsNullOrEmpty(input))
-                return string.Empty;
-
-            string[] words = input.Split(separator.ToCharArray());
-
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (words[i].Length > 0)
-                {
-                    if (capitalizeInitials)
-                        words[i] = char.ToUpper(words[i][0]).ToString(); //only keep the first letter
-                    else
-                        words[i] = words[i][0].ToString(); //only keep the first letter
-
-                    if (includePeriod)
-                        words[i] += ".";
-                }
-            }
-
-            if (preserveSeparator)
-                return string.Join(separator, words);
-            else
-                return string.Join("", words);
-        }
-
-        public static string GetTitle(string input)
-        {
-            //Verify input
-            if (string.IsNullOrEmpty(input))
-                return string.Empty;
-
-            string[] words = input.Split(' ');
-
-            for (int i = 0; i < words.Length; i++)
-            {
-                //Capitalize each word
-                if (words[i].Length > 0)
-                    words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1);
-            }
-
-            return string.Join(" ", words);
-        }
-
-        public static string GetTitle(string input, string separator)
-        {
-            //Verify input
-            if (string.IsNullOrEmpty(input))
-                return string.Empty;
-
-            string[] words = input.Split(separator.ToCharArray());
-
-            for (int i = 0; i < words.Length; i++)
-            {
-                //Capitalize each word
-                if (words[i].Length > 0)
-                    words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1);
-            }
-
-            return string.Join(separator, words);
         }
 
         public static string SubstringEnd(string input, int start, int end)
@@ -471,7 +335,8 @@ namespace WordProcessing
         public static bool IsLetters(string input)
         {
             //Verify input
-            if (string.IsNullOrEmpty(input)) return false;
+            if (string.IsNullOrEmpty(input)) 
+            	return false;
 
             for (int i = 0; i < input.Length; i++)
             {
@@ -479,40 +344,6 @@ namespace WordProcessing
                 {
                     return false;
                 }
-            }
-            return true;
-        }
-
-        public static bool IsTitle(string input)
-        {
-            //Verify input
-            if (string.IsNullOrEmpty(input))
-                return false;
-
-            string[] words = input.Split(' ');
-
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (words[i].Length > 0)
-                    if (!char.IsUpper(words[i][0]))
-                        return false;
-            }
-            return true;
-        }
-
-        public static bool IsTitle(string input, string separator)
-        {
-            //Verify input
-            if (string.IsNullOrEmpty(input))
-                return false;
-
-            string[] words = input.Split(separator.ToCharArray());
-
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (words[i].Length > 0)
-                    if (!char.IsUpper(words[i][0]))
-                        return false;
             }
             return true;
         }
@@ -612,18 +443,18 @@ namespace WordProcessing
             return output;
         }
 
-        public static int[] IndexOfAll(string source, char matchChar, int maxMatches, bool ignoreCase)
+        public static int[] IndexOfAll(string input, char matchChar, int maxMatches, bool ignoreCase)
         {
             List<int> occurrences = new List<int>();
             int foundPos = -1; // -1 represents not found.
             int numberFound = 0;
             int startPos = 0;
             char tempMatchChar = matchChar;
-            string tempSource = source;
+            string tempSource = input;
             if (!ignoreCase)
             {
                 tempMatchChar = char.ToUpper(matchChar);
-                tempSource = source.ToUpper();
+                tempSource = input.ToUpper();
             }
             do
             {
@@ -648,19 +479,19 @@ namespace WordProcessing
             return (occurrences.ToArray());
         }
 
-        public static int[] IndexOfAll(string source, char matchChar)
+        public static int[] IndexOfAll(string input, char matchChar)
         {
-            return (IndexOfAll(source, matchChar, -1, false));
+            return (IndexOfAll(input, matchChar, -1, false));
         }
 
-        public static int[] IndexOfAll(string source, char matchChar, int maxMatches)
+        public static int[] IndexOfAll(string input, char matchChar, int maxMatches)
         {
-            return (IndexOfAll(source, matchChar, maxMatches, false));
+            return (IndexOfAll(input, matchChar, maxMatches, false));
         }
 
-        public static int[] IndexOfAll(string source, char matchChar, bool ignoreCase)
+        public static int[] IndexOfAll(string input, char matchChar, bool ignoreCase)
         {
-            return (IndexOfAll(source, matchChar, -1, ignoreCase));
+            return (IndexOfAll(input, matchChar, -1, ignoreCase));
         }
 
     }
