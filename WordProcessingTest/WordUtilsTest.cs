@@ -20,7 +20,7 @@ namespace WordProcessingTest
 		public void CapitalizeCheck()
 		{
 			Assert.Null(WordUtils.Capitalize(null));
-			Assert.AreEqual("", WordUtils.Capitalize(""));
+			Assert.IsEmpty(WordUtils.Capitalize(""));
 			Assert.AreEqual("  ", WordUtils.Capitalize("  "));
 			Assert.AreEqual("I", WordUtils.Capitalize("I") );
 			Assert.AreEqual("I", WordUtils.Capitalize("i") );
@@ -34,7 +34,7 @@ namespace WordProcessingTest
 		public void CapitalizeWithDelimitersCheck()
 		{
 			Assert.Null(WordUtils.Capitalize(null, null));
-			Assert.AreEqual("", WordUtils.Capitalize("", new char[0]));
+			Assert.IsEmpty(WordUtils.Capitalize("", new char[0]));
 			Assert.AreEqual("  ", WordUtils.Capitalize("  ", new char[0]));
 			
 			char[] chars = new char[] { '-', '+', ' ', '@' };
@@ -53,7 +53,7 @@ namespace WordProcessingTest
 		public void CapitalizeFullyCheck()
 		{
 			Assert.Null(WordUtils.CapitalizeFully(null));
-			Assert.AreEqual("", WordUtils.CapitalizeFully(""));
+			Assert.IsEmpty(WordUtils.CapitalizeFully(""));
 			Assert.AreEqual("  ", WordUtils.CapitalizeFully("  "));
 			Assert.AreEqual("I", WordUtils.CapitalizeFully("I") );
 			Assert.AreEqual("I", WordUtils.CapitalizeFully("i") );
@@ -67,7 +67,7 @@ namespace WordProcessingTest
 		public void CapitalizeFullyWithDelimitersCheck()
 		{
 			Assert.Null(WordUtils.CapitalizeFully(null, null));
-			Assert.AreEqual("", WordUtils.CapitalizeFully("", new char[0]));
+			Assert.IsEmpty(WordUtils.CapitalizeFully("", new char[0]));
 			Assert.AreEqual("  ", WordUtils.CapitalizeFully("  ", new char[0]));
 			
 			char[] chars = new char[] { '-', '+', ' ', '@' };
@@ -86,7 +86,7 @@ namespace WordProcessingTest
 		public void UncapitalizeCheck()
 		{
 			Assert.Null(WordUtils.Uncapitalize(null));
-			Assert.AreEqual("", WordUtils.Uncapitalize(""));
+			Assert.IsEmpty(WordUtils.Uncapitalize(""));
 			Assert.AreEqual("  ", WordUtils.Uncapitalize("  "));
 			Assert.AreEqual("i", WordUtils.Uncapitalize("I") );
 			Assert.AreEqual("i", WordUtils.Uncapitalize("i") );
@@ -100,7 +100,7 @@ namespace WordProcessingTest
 		public void UncapitalizeWithDelimitersCheck()
 		{
 			Assert.Null(WordUtils.Uncapitalize(null, null));
-			Assert.AreEqual("", WordUtils.Uncapitalize("", new char[0]));
+			Assert.IsEmpty(WordUtils.Uncapitalize("", new char[0]));
 			Assert.AreEqual("  ", WordUtils.Uncapitalize("  ", new char[0]));
 			
 			char[] chars = new char[] { '-', '+', ' ', '@' };
@@ -128,8 +128,8 @@ namespace WordProcessingTest
 			Assert.AreEqual("I AM here 123", WordUtils.SwapCases("i am HERE 123") );
 			Assert.AreEqual("i am here 123", WordUtils.SwapCases("I AM HERE 123") );
 
-			String test = "This String contains a TitleCase character:";
-			String expect = "tHIS sTRING CONTAINS A tITLEcASE CHARACTER:";
+            const String test = "This String contains a TitleCase character:";
+            const String expect = "tHIS sTRING CONTAINS A tITLEcASE CHARACTER:";
 			Assert.AreEqual(expect, WordUtils.SwapCases(test));
 		}
 		
@@ -137,7 +137,7 @@ namespace WordProcessingTest
 		public void GetInitialsCheck()
 		{
 			Assert.Null(WordUtils.GetInitials(null, false, false, false));
-			Assert.AreEqual("", WordUtils.GetInitials("", false, false, false));
+			Assert.IsEmpty(WordUtils.GetInitials("", false, false, false));
 			Assert.AreEqual("", WordUtils.GetInitials("", true, true, true));
 			Assert.AreEqual("", WordUtils.GetInitials("  ",false, false, false));
 			Assert.AreEqual("  ", WordUtils.GetInitials("  ",false, true, false));
@@ -146,6 +146,7 @@ namespace WordProcessingTest
 			Assert.AreEqual("BJL", WordUtils.GetInitials("Ben John Lee",true, false, false));
 			Assert.AreEqual("BJL", WordUtils.GetInitials("ben john lee",true, false, false));
 			Assert.AreEqual("B J L", WordUtils.GetInitials("Ben John Lee",true,true,false));
+            Assert.AreEqual("B.J.L.", WordUtils.GetInitials("Ben John Lee", true, false, true));
 			Assert.AreEqual("BJ", WordUtils.GetInitials("Ben J.Lee",true,false,false));
 			Assert.AreEqual("BJ.L", WordUtils.GetInitials(" Ben   John  . Lee",false ,false, false));
 			Assert.AreEqual("iah1", WordUtils.GetInitials("i am here 123",false,false,false));

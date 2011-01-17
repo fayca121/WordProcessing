@@ -5,9 +5,6 @@ namespace WordProcessing
 {
 	public class StringUtils
 	{
-		public const string EMPTY = "";
-
-		public const int INDEX_NOT_FOUND = -1;
 		
 		public static string DefaultString(string input)
 		{
@@ -17,8 +14,10 @@ namespace WordProcessing
 		public static string Reverse(string input)
 		{
 			//Validate input
-			if (string.IsNullOrEmpty(input))
-				return string.Empty;
+            if (input == null)
+                return null;
+            if (input.Equals(string.Empty))
+                return string.Empty;
 
 			char[] outputChars = input.ToCharArray();
 
@@ -187,17 +186,17 @@ namespace WordProcessing
 		public static string TrimToNull(string str)
 		{
 			string ts = Trim(str);
-			return string.IsNullOrEmpty(str) ? null : ts;
+            return ts == string.Empty ? null : ts;
 		}
 
 		public static string TrimToEmpty(string str)
 		{
-			return str == null ? EMPTY : str.Trim();
+			return str == null ? string.Empty : str.Trim();
 		}
 
 		public static bool EqualsIgnoreCase(string str1, string str2)
 		{
-			return str1 == null ? str2 == null : str1.ToLower().Equals(str2.ToLower());
+			return str1 == null ? str2 == null : (str2 == null) ? false : str1.ToLower().Equals(str2.ToLower());
 		}
 
 		public static bool IsAlternateCases(string input)
