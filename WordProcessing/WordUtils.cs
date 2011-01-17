@@ -23,11 +23,12 @@ namespace WordProcessing
 		
 		public static string Capitalize(string input, char[] delimiters)
 		{
-			int delimLen = (delimiters == null ? -1 : delimiters.Length);
+			int delimLen = (delimiters == null) ? -1 : delimiters.Length;
 			if (string.IsNullOrEmpty(input) || delimLen == 0)
 			{
 				return input;
 			}
+			
 			int strLen = input.Length;
 			StringBuilder buffer = new StringBuilder(strLen);
 			bool capitalizeNext = true;
@@ -50,6 +51,7 @@ namespace WordProcessing
 					buffer.Append(ch);
 				}
 			}
+			
 			return buffer.ToString();
 		}
 		
@@ -60,7 +62,7 @@ namespace WordProcessing
 		
 		public static string CapitalizeFully(string input, char[] delimiters)
 		{
-			int delimLen = (delimiters == null ? -1 : delimiters.Length);
+			int delimLen = (delimiters == null) ? -1 : delimiters.Length;
 			if (string.IsNullOrEmpty(input) || delimLen == 0)
 				return input;
 			input = input.ToLower();
@@ -74,7 +76,7 @@ namespace WordProcessing
 		
 		public static string Uncapitalize(string input, char[] delimiters)
 		{
-			int delimLen = (delimiters == null ? -1 : delimiters.Length);
+			int delimLen = (delimiters == null) ? -1 : delimiters.Length;
 			if (string.IsNullOrEmpty(input) || delimLen == 0)
 				return input;
 			
@@ -99,20 +101,23 @@ namespace WordProcessing
 					buffer.Append(ch);
 				}
 			}
+			
 			return buffer.ToString();
 		}
 		
 		public static string SwapCases(string input)
 		{
 			//Validate input
-			if (string.IsNullOrEmpty(input))
+			if(input==null)
+				return null;
+			if (input.Equals(string.Empty))
 				return string.Empty;
 			
 			int strLen = input.Length;
 			
 			StringBuilder buffer = new StringBuilder(strLen);
 			
-			char ch,tmp;
+			char ch, tmp;
 			for (int i = 0; i < strLen; i++)
 			{
 				ch = input[i];
@@ -128,15 +133,20 @@ namespace WordProcessing
 				{
 					tmp = ch;
 				}
+				
 				buffer.Append(tmp);
 			}
+			
 			return buffer.ToString();
 		}
 		
 		public static string GetInitials(string input, bool capitalizeInitials, bool preserveSpaces, bool includePeriod)
 		{
 			//Verify input
-			if (string.IsNullOrEmpty(input))
+			if(input==null)
+				return null;
+			
+			if (input.Equals(string.Empty))
 				return string.Empty;
 
 			string[] words = input.Split(' ');
@@ -186,49 +196,36 @@ namespace WordProcessing
 			if (preserveSeparator)
 				return string.Join(separator, words);
 			else
-				return string.Join("", words);
-		}
-		
-		private static bool IsDelimiter(char ch, char[] delimiters)
-		{
-			if (delimiters == null)
-			{
-				return Char.IsWhiteSpace(ch);
-			}
-			for (int i = 0, isize = delimiters.Length; i < isize; i++)
-			{
-				if (ch == delimiters[i])
-				{
-					return true;
-				}
-			}
-			return false;
+				return string.Join("", words);	
 		}
 		
 		public static string Abbreviate(string input, int lower, int upper, string appendToEnd)
 		{
-			// initial parameter checks
-			if(string.IsNullOrEmpty(input))
+			//initial parameter checks
+			if (input==null) 
+				return null;
+			
+			if (input.Equals(string.Empty))
 				return string.Empty;
 
-			// if the upper value is -1 (i.e. no limit) or is greater
-			// than the length of the string, set to the length of the string
+			//if the upper value is -1 (i.e. no limit) or is greater
+			//than the length of the string, set to the length of the string
 			if (upper == -1 || upper > input.Length)
 			{
 				upper = input.Length;
 			}
 			
-			// if upper is less than lower, raise it to lower
-			if (upper < lower) {
+			//if upper is less than lower, raise it to lower
+			if (upper < lower) 
 				upper = lower;
-			}
 
 			StringBuilder result = new StringBuilder();
-			int index =input.IndexOf(" ",lower);
+			int index = input.IndexOf(" ", lower);
 			if (index == -1)
 			{
 				result.Append(input.Substring(0, upper));
-				// only if abbreviation has occured do we append the appendToEnd value
+				
+				//only if abbreviation has occured do we append the appendToEnd value
 				if (upper != input.Length)
 				{
 					result.Append(StringUtils.DefaultString(appendToEnd));
@@ -244,7 +241,26 @@ namespace WordProcessing
 				result.Append(input.Substring(0, index));
 				result.Append(StringUtils.DefaultString(appendToEnd));
 			}
+			
 			return result.ToString();
+		}
+		
+		private static bool IsDelimiter(char ch, char[] delimiters)
+		{
+			if (delimiters == null)
+			{
+				return Char.IsWhiteSpace(ch);
+			}
+			
+			for (int i = 0, isize = delimiters.Length; i < isize; i++)
+			{
+				if (ch == delimiters[i])
+				{
+					return true;
+				}
+			}
+			
+			return false;
 		}
 	}
 }

@@ -1,0 +1,48 @@
+<stylecopresultscache>
+  <version>10</version>
+  <project key="341537986">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="RandomStringUtils.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>01/17/2011 11:51:22</timestamp>
+      <milliseconds>359</milliseconds>
+    </settings>
+    <timestamp>01/17/2011 11:53:11</timestamp>
+    <milliseconds>125</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="StringUtils.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>01/17/2011 11:51:22</timestamp>
+      <milliseconds>359</milliseconds>
+    </settings>
+    <timestamp>01/17/2011 11:53:40</timestamp>
+    <milliseconds>625</milliseconds>
+    <violations>
+      <violation namespace="Microsoft.StyleCop.CSharp.NamingRules" rule="FieldNamesMustNotContainUnderscore" ruleCheckId="SA1310">
+        <context>Field names must not contain underscores.</context>
+        <line>10</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="AssemblyInfo.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>01/17/2011 11:51:22</timestamp>
+      <milliseconds>359</milliseconds>
+    </settings>
+    <timestamp>01/12/2011 09:33:39</timestamp>
+    <milliseconds>203</milliseconds>
+    <violations />
+  </sourcecode>
+  <sourcecode name="WordUtils.cs" parser="Microsoft.StyleCop.CSharp.CsParser">
+    <settings>
+      <timestamp>01/17/2011 11:51:22</timestamp>
+      <milliseconds>359</milliseconds>
+    </settings>
+    <timestamp>01/17/2011 11:54:50</timestamp>
+    <milliseconds>609</milliseconds>
+    <violations />
+  </sourcecode>
+</stylecopresultscache>

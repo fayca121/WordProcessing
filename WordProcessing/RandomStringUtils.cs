@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace WordUtils
+namespace WordProcessing
 {
 	/// <summary>
 	/// Description of RandomStringUtils.
@@ -19,16 +19,16 @@ namespace WordUtils
         private const string LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
         private const string NUMBERS = "0123456789";
         private const string SYMBOLS = @"~`!@#$%^&*()-_=+<>?:,./\[]{}|'";
-        private static Random RANDOM = new Random();
+        private static readonly Random RANDOM = new Random();
         
         public static string RandomAlphabetic(int length) 
         {
-        	return NextString(length,true,true,false,false);
+        	return NextString(length, true, true, false, false);
         }
         
         public static string RandomAlphanumeric(int length)
         {
-        	return NextString(length,true,true,true,false);
+        	return NextString(length, true, true, true, false);
         }
         
         public static string NextString(int length, bool lowerCase, bool upperCase, bool numbers, bool symbols)
@@ -36,7 +36,7 @@ namespace WordUtils
             char[] charArray = new char[length];
             string charPool = string.Empty;
 
-            //Build character pool
+            // Build character pool
             if (lowerCase)
                 charPool += LOWERCASE;
 
@@ -49,18 +49,17 @@ namespace WordUtils
             if (symbols)
                 charPool += SYMBOLS;
 
-            //Build the output character array
+            // Build the output character array
             for (int i = 0; i < charArray.Length; i++)
             {
-                //Pick a random integer in the character pool
+                // Pick a random integer in the character pool
                 int index = RANDOM.Next(0, charPool.Length);
 
-                //Set it to the output character array
+                // Set it to the output character array
                 charArray[i] = charPool[index];
             }
 
             return new string(charArray);
         }
-		
 	}
 }
