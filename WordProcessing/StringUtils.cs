@@ -14,18 +14,29 @@ namespace WordProcessing
 		public static string Reverse(string input)
 		{
 			//Validate input
-            if (input == null)
-                return null;
-            if (input.Equals(string.Empty))
-                return string.Empty;
+			if (input == null)
+				return null;
+			if(input.Equals(string.Empty))
+				return string.Empty;
 
 			char[] outputChars = input.ToCharArray();
 
 			//Reverse
 			Array.Reverse(outputChars);
-
+			
 			//build a string from the processed characters and return it
 			return new string(outputChars);
+		}
+		
+		public static string ReverseDelimited(string input, string separatorChar)
+		{
+			if (input == null)
+				return null;
+			// could implement manually, but simple way is to reuse other,
+			// probably slower, methods.
+			string[] strs = input.Split(separatorChar.ToCharArray());
+			Array.Reverse(strs);
+			return string.Join(separatorChar,strs);
 		}
 
 		public static string InsertSeparator(string input, string separator)
@@ -65,54 +76,6 @@ namespace WordProcessing
 					outputChars.InsertRange(i, separatorChars);
 
 				i += interval + separator.Length; //go up the interval amount plus separator
-			}
-
-			return new string(outputChars.ToArray());
-		}
-
-		public static string RemoveVowels(string input)
-		{
-			//Validate input
-			if (string.IsNullOrEmpty(input))
-				return string.Empty;
-
-			List<char> outputChars = new List<char>(input.ToCharArray());
-
-			//Iterate backwards to avoid problems from removing characters
-			for (int i = outputChars.Count - 1; i >= 0; i--)
-			{
-				if (outputChars[i] == 'a' || outputChars[i] == 'A' ||
-				    outputChars[i] == 'e' || outputChars[i] == 'E' ||
-				    outputChars[i] == 'i' || outputChars[i] == 'I' ||
-				    outputChars[i] == 'o' || outputChars[i] == 'O' ||
-				    outputChars[i] == 'u' || outputChars[i] == 'U')
-					
-					//not a vowel, remove it
-					outputChars.RemoveAt(i);
-			}
-
-			return new string(outputChars.ToArray());
-		}
-
-		public static string KeepVowels(string input)
-		{
-			//Validate input
-			if (string.IsNullOrEmpty(input))
-				return string.Empty;
-
-			List<char> outputChars = new List<char>(input.ToCharArray());
-
-			//Iterate backwards to avoid problems from removing characters
-			for (int i = outputChars.Count - 1; i >= 0; i--)
-			{
-				if (!(outputChars[i] == 'a' || outputChars[i] == 'A' ||
-				      outputChars[i] == 'e' || outputChars[i] == 'E' ||
-				      outputChars[i] == 'i' || outputChars[i] == 'I' ||
-				      outputChars[i] == 'o' || outputChars[i] == 'O' ||
-				      outputChars[i] == 'u' || outputChars[i] == 'U'))
-					
-					//a vowel, remove it
-					outputChars.RemoveAt(i);
 			}
 
 			return new string(outputChars.ToArray());
@@ -178,20 +141,20 @@ namespace WordProcessing
 			return input[startingIndex + count];
 		}
 
-		public static string Trim(string str)
+		public static string Trim(string input)
 		{
-			return str == null ? null : str.Trim();
+			return input == null ? null : input.Trim();
 		}
 
-		public static string TrimToNull(string str)
+		public static string TrimToNull(string input)
 		{
-			string ts = Trim(str);
-            return ts == string.Empty ? null : ts;
+			string ts = Trim(input);
+			return ts == string.Empty ? null : ts;
 		}
 
-		public static string TrimToEmpty(string str)
+		public static string TrimToEmpty(string input)
 		{
-			return str == null ? string.Empty : str.Trim();
+			return input == null ? string.Empty : input.Trim();
 		}
 
 		public static bool EqualsIgnoreCase(string str1, string str2)
@@ -223,14 +186,6 @@ namespace WordProcessing
 			}
 
 			return true;
-		}
-
-		public static bool IsCapitalized(string input)
-		{
-			//Verify input
-			if (string.IsNullOrEmpty(input)) return false;
-
-			return char.IsUpper(input[0]);
 		}
 
 		public static bool IsLowerCase(string input)
@@ -266,31 +221,13 @@ namespace WordProcessing
 			return true;
 		}
 
-		public static bool HasVowels(string input)
-		{
-			//Verify input
-			if (string.IsNullOrEmpty(input)) return false;
-
-			for (int i = 0; i < input.Length; i++)
-			{
-				if (input[i] == 'a' || input[i] == 'A' ||
-				    input[i] == 'e' || input[i] == 'E' ||
-				    input[i] == 'i' || input[i] == 'I' ||
-				    input[i] == 'o' || input[i] == 'O' ||
-				    input[i] == 'u' || input[i] == 'U')
-					return true; //a single vowel makes function true
-			}
-
-			return false;
-		}
-
 		public static bool IsSpaces(string input)
 		{
-			if (input == null) 
+			if (input == null)
 				return false;
-			for (int i = 0; i < input.Length; i++) 
+			for (int i = 0; i < input.Length; i++)
 			{
-				if (!char.IsWhiteSpace(input[i])) 
+				if (!char.IsWhiteSpace(input[i]))
 					return false;
 			}
 			
@@ -314,6 +251,33 @@ namespace WordProcessing
 					return false; //single non-numeric integer makes function false
 			}
 			
+			return true;
+		}
+		
+		public static bool IsNumericSpace(string input)
+		{
+			if (input == null)
+				return false;
+			
+			for (int i = 0; i < input.Length; i++)
+			{
+				if (!char.IsDigit(input[i])&& !char.IsWhiteSpace(input[i]))
+					return false;
+			}
+			return true;
+		}
+		
+		public static bool IsAsciiPrintable(string input)
+		{
+			if (input == null)
+				return false;
+			
+			for (int i = 0; i < input.Length; i++)
+			{
+				if (input[i] < 32 || input[i] >=127 )
+					return false;
+				
+			}
 			return true;
 		}
 
@@ -362,24 +326,126 @@ namespace WordProcessing
 			
 			return true;
 		}
-
-		public static bool IsEmailAddress(string input)
+		
+		public static string GetCommonPrefix(String[] inputs)
 		{
-			//Validate input
-			if (string.IsNullOrEmpty(input))
-				return false;
-
-			if (input.IndexOf('@') != -1 &&
-			    input.Length >= 5)
+			if (inputs == null || inputs.Length == 0)
+				return string.Empty;
+			
+			int smallestIndexOfDiff = IndexOfDifference(inputs);
+			
+			if (smallestIndexOfDiff == -1)
 			{
-				int indexOfDot = input.LastIndexOf('.');
-				if (indexOfDot > input.IndexOf('@')) //last period must be after the @
-					return true;
+				// all strings were identical
+				if (inputs[0] == null)
+					return string.Empty;
+				
+				return inputs[0];
 			}
-
-			return false;
+			else if (smallestIndexOfDiff == 0)
+			{
+				// there were no common initial characters
+				return string.Empty;
+			}
+			else
+			{
+				// we found a common initial character sequence
+				return inputs[0].Substring(0, smallestIndexOfDiff);
+			}
 		}
 
+		public static string Difference(string input1,string input2)
+		{
+			if (input1 == null)
+				return input2;
+			if (input2 == null)
+				return input1;
+			int index = IndexOfDifference(input1, input2);
+			if (index == -1)
+				return string.Empty;
+			
+			return input2.Substring(index);
+		}
+		
+		public static int IndexOfDifference(string input1, string input2) {
+			
+			if (input1 == input2)
+				return -1;
+			
+			if (input1 == null || input2 == null)
+				return 0;
+			
+			int index;
+			for (index = 0; index < input1.Length && index < input2.Length ; ++index)
+			{
+				if (input1[index] != input2[index]) {
+					break;
+				}
+			}
+			if (index < input2.Length || index < input1.Length)
+				return index;
+			
+			return -1;
+		}
+		
+		public static int IndexOfDifference(string[] inputs)
+		{
+			if (inputs == null || inputs.Length <= 1)
+				return -1;
+			bool anyStringNull = false;
+			bool allStringsNull = true;
+			int shortestStrLen = int.MaxValue;
+			int longestStrLen = 0;
+			
+			for (int i = 0; i < inputs.Length; i++)
+			{
+				if (inputs[i] == null) {
+					anyStringNull = true;
+					shortestStrLen = 0;
+				}
+				else
+				{
+					allStringsNull = false;
+					shortestStrLen = Math.Min(inputs[i].Length, shortestStrLen);
+					longestStrLen = Math.Max(inputs[i].Length, longestStrLen);
+				}
+			}
+			// handle lists containing all nulls or all empty strings
+			if (allStringsNull || (longestStrLen == 0 && !anyStringNull))
+				return -1;
+			
+			// handle lists containing some nulls or some empty strings
+			if (shortestStrLen == 0)
+				return 0;
+			
+			// find the position with the first difference across all strings
+			int firstDiff = -1;
+			for (int stringPos = 0; stringPos < shortestStrLen; stringPos++)
+			{
+				char comparisonChar = inputs[0][stringPos];
+				
+				for (int arrayPos = 1; arrayPos < inputs.Length; arrayPos++)
+				{
+					if (inputs[arrayPos][stringPos] != comparisonChar)
+					{
+						firstDiff = stringPos;
+						break;
+					}
+				}
+				
+				if (firstDiff != -1)
+					break;
+			}
+			if (firstDiff == -1 && shortestStrLen != longestStrLen) {
+				// we compared all of the characters up to the length of the
+				// shortest string and didn't find a match, but the string lengths
+				// vary, so return the length of the shortest string.
+				return shortestStrLen;
+			}
+			
+			return firstDiff;
+		}
+		
 		public static int CountString(string input, string sequence, bool ignoreCase)
 		{
 			//Verify input
@@ -490,7 +556,7 @@ namespace WordProcessing
 						occurrences.Add(foundPos);
 					}
 				}
-			} 
+			}
 			while (foundPos > -1);
 			
 			return occurrences.ToArray();
@@ -509,6 +575,68 @@ namespace WordProcessing
 		public static int[] IndexOfAll(string input, char matchChar, bool ignoreCase)
 		{
 			return IndexOfAll(input, matchChar, -1, ignoreCase);
+		}
+		
+		public static string RemoveChar(string input, char remove)
+		{
+			if(input==null)
+				return null;
+			
+			if (input.Equals(string.Empty) || input.IndexOf(remove) == -1)
+				return input;
+			
+			char[] chars = input.ToCharArray();
+			int pos = 0;
+			
+			for (int i = 0; i < chars.Length; i++)
+			{
+				if (chars[i] != remove) 
+					chars[pos++] = chars[i];
+			}
+			return new string(chars, 0, pos);
+		}
+		
+		public static string RemoveString(string input , string segment)
+		{
+			if(string.IsNullOrEmpty(input) || string.IsNullOrEmpty(segment))
+				return input;
+			return input.Replace(segment,"");
+		}
+		
+		public static string RemoveNumeric(string input)
+		{
+			if(input==null)
+				return null;
+			char[] chars = input.ToCharArray();
+			int pos=0;
+			for(int i = 0;i<chars.Length;i++)
+			{
+				if(!char.IsDigit(chars[i]))
+				   chars[pos++] = chars[i];
+			}
+			return new string(chars,0,pos);
+		}
+		
+		public static string RemoveLetters(string input)
+		{
+			if(input==null)
+				return null;
+			char[] chars = input.ToCharArray();
+			int pos=0;
+			for(int i = 0;i<chars.Length;i++)
+			{
+				if(!char.IsLetter(chars[i]))
+				   chars[pos++] = chars[i];
+			}
+			return new string(chars,0,pos);
+		}
+		
+		public static bool IsPalaindrom(string input)
+		{
+			if(input==null)
+				return false;
+			
+			return input.Equals(Reverse(input));
 		}
 	}
 }

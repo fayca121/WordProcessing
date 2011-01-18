@@ -8,6 +8,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace WordProcessing
@@ -141,7 +142,8 @@ namespace WordProcessing
 			return buffer.ToString();
 		}
 		
-		public static string GetInitials(string input, bool capitalizeInitials, bool preserveSpaces, bool includePeriod)
+		public static string GetInitials(string input, bool capitalizeInitials, 
+		                                 bool preserveSpaces, bool includePeriod)
 		{
 			//Verify input
 			if(input==null)
@@ -172,7 +174,8 @@ namespace WordProcessing
 				return string.Join("", words);
 		}
 
-		public static string GetInitials(string input, string separator, bool capitalizeInitials, bool preserveSeparator, bool includePeriod)
+		public static string GetInitials(string input, string separator, bool capitalizeInitials, 
+		                                 bool preserveSeparator, bool includePeriod)
 		{
 			//Verify input
 			if (string.IsNullOrEmpty(input))
@@ -198,6 +201,72 @@ namespace WordProcessing
 				return string.Join(separator, words);
 			else
 				return string.Join("", words);	
+		}
+		
+		public static string RemoveVowels(string input)
+		{
+			//Validate input
+			if (string.IsNullOrEmpty(input))
+				return string.Empty;
+
+			List<char> outputChars = new List<char>(input.ToCharArray());
+
+			//Iterate backwards to avoid problems from removing characters
+			for (int i = outputChars.Count - 1; i >= 0; i--)
+			{
+				if (outputChars[i] == 'a' || outputChars[i] == 'A' ||
+				    outputChars[i] == 'e' || outputChars[i] == 'E' ||
+				    outputChars[i] == 'i' || outputChars[i] == 'I' ||
+				    outputChars[i] == 'o' || outputChars[i] == 'O' ||
+				    outputChars[i] == 'u' || outputChars[i] == 'U')
+					
+					//not a vowel, remove it
+					outputChars.RemoveAt(i);
+			}
+
+			return new string(outputChars.ToArray());
+		}
+
+		public static string KeepVowels(string input)
+		{
+			//Validate input
+			if (string.IsNullOrEmpty(input))
+				return string.Empty;
+
+			List<char> outputChars = new List<char>(input.ToCharArray());
+
+			//Iterate backwards to avoid problems from removing characters
+			for (int i = outputChars.Count - 1; i >= 0; i--)
+			{
+				if (!(outputChars[i] == 'a' || outputChars[i] == 'A' ||
+				      outputChars[i] == 'e' || outputChars[i] == 'E' ||
+				      outputChars[i] == 'i' || outputChars[i] == 'I' ||
+				      outputChars[i] == 'o' || outputChars[i] == 'O' ||
+				      outputChars[i] == 'u' || outputChars[i] == 'U'))
+					
+					//a vowel, remove it
+					outputChars.RemoveAt(i);
+			}
+
+			return new string(outputChars.ToArray());
+		}
+		
+		public static bool HasVowels(string input)
+		{
+			//Verify input
+			if (string.IsNullOrEmpty(input)) return false;
+
+			for (int i = 0; i < input.Length; i++)
+			{
+				if (input[i] == 'a' || input[i] == 'A' ||
+				    input[i] == 'e' || input[i] == 'E' ||
+				    input[i] == 'i' || input[i] == 'I' ||
+				    input[i] == 'o' || input[i] == 'O' ||
+				    input[i] == 'u' || input[i] == 'U')
+					return true; //a single vowel makes function true
+			}
+
+			return false;
 		}
 		
 		public static string Abbreviate(string input, int lower, int upper, string appendToEnd)
@@ -262,6 +331,15 @@ namespace WordProcessing
 			}
 			
 			return false;
+		}
+		
+		public static bool IsCapitalized(string input)
+		{
+			//Verify input
+			if (string.IsNullOrEmpty(input)) 
+				return false;
+
+			return char.IsUpper(input[0]);
 		}
 	}
 }
